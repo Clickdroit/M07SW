@@ -1,0 +1,24 @@
+{
+		"nom":"eleve",
+		"time":1570456275,
+		"numero":"C4F41",
+		"etats":[
+			{	"pitch": 0,	
+				"roll": 0,	
+				"yaw": 0,	
+				"vgx": 0,	
+				"vgy": 0,	
+				"vgz": 0,	
+				"templ": 20,
+				"temph": 40,
+				"tof": 0,
+				"h": 0,	
+				"bat": 80,
+				"baro": 1,
+				"time": 0,
+				"agx": 0,
+				"agy": 0,
+				"agz": 0
+			}
+		]
+}

@@ -48,7 +48,8 @@ CREATE TABLE IF NOT EXISTS etat(
     agx FLOAT,
     agy FLOAT,
     agz FLOAT,
-    FOREIGN KEY (idvol) REFERENCES vol(iddrone)
+    FOREIGN KEY (idvol) REFERENCES vol(iddrone),
+    FOREIGN KEY (idlisteCommande) REFERENCES listeCommande(idlisteCommande)
 );
 CREATE TABLE IF NOT EXISTS commande(
     idcommande INT PRIMARY KEY NOT NULL AUTO_INCREMENT,

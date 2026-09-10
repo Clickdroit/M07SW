@@ -26,6 +26,3 @@ if($req_type == 'POST') {
 
 }
 ?>
-    //echo $donneesVolAssoc["donneesVol"]["nom"];
-    //echo "`\n";
-    //echo $donneesVolAssoc["donneesVol"]["numero"];

@@ -9,7 +9,7 @@ if(isset($_SERVER['PATH_INFO'])) {
 if($req_type == 'GET'){
 
 }
-else($req_type == 'POST') {
+elseif($req_type == 'POST') {
 
     $donneesVolJSON = file_get_contents("php://input");
     echo $donneesVolJSON;
@@ -56,20 +56,15 @@ else($req_type == 'POST') {
         $agz = $donnees['agz'];
         $req2= "SELECT * FROM etat WHERE idvol = '$idvol'";
         $reqpreparer2=$maconnexion->prepare($req2);
+        $reqpreparer2->execute();
         $reponse = $reqpreparer2->fetchAll(PDO::FETCH_ASSOC);
         if(empty($reponse)) {
             $req = "INSERT INTO etat(idvol, pitch, roll, yaw, vgx, vgy, vgz, templ, temph, tof, h, bat, baro, time, agx, agy, agz) VALUES ('$idvol', '$pitch', '$roll', '$yaw', '$vgx', '$vgy', '$vgz', '$templ', '$temph', '$tof', '$h', '$bat', '$baro', '$time', '$agx', '$agy', '$agz')";
-            $reqpreparer=$maconnexion->prepare($req);
             print_r("Données créées");
         } else {
             $req = "UPDATE etat SET pitch='$pitch', roll='$roll', yaw='$yaw', vgx='$vgx', vgy='$vgy', vgz='$vgz', templ='$templ', temph='$temph', tof='$tof', h='$h', bat='$bat', baro='$baro', time='$time', agx='$agx', agy='$agy', agz='$agz' WHERE idvol = '$idvol'";
-            $reqpreparer=$maconnexion->prepare($req);
             print_r("Données mises à jour");
         }
-
-
-
-       
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
         $reqpreparer->closeCursor();

@@ -7,7 +7,13 @@ if(isset($_SERVER['PATH_INFO'])) {
 }
 
 if($req_type == 'GET'){
-
+    if(isset($req_data[1])&& $req_data[1]=='utilisateur'){
+        $req = "SELECT * FROM utilisateur";
+        $reqpreparer=$maconnexion->prepare($req);
+        $reqpreparer->execute();
+        $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
+        print_r($reponse);
+    }
 }
 elseif($req_type == 'POST') {
 

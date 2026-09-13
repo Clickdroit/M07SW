@@ -14,6 +14,27 @@ if($req_type == 'GET'){
         $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
         print_r($reponse);
     }
+    if(isset($req_data[1])&& $req_data[1] == 'drone'){
+        $req = "SELECT * FROM drone";
+        $reqpreparer=$maconnexion->prepare($req);
+        $reqpreparer->execute();
+        $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
+        print_r($reponse);
+    }
+    if(isset($req_data[1])&& $req_data[1] == 'vol'){
+        $req = "SELECT * FROM vol";
+        $reqpreparer=$maconnexion->prepare($req);
+        $reqpreparer->execute();
+        $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
+        print_r($reponse);
+    }
+    if(isset($req_data[1])&& $req_data[1] == 'listecommande'){
+        $req = "SELECT * FROM listecommande";
+        $reqpreparer=$maconnexion->prepare($req);
+        $reqpreparer->execute();
+        $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
+        print_r($reponse);
+    }
 }
 elseif($req_type == 'POST') {
 
@@ -28,7 +49,17 @@ elseif($req_type == 'POST') {
         $naissance = $donnees['naissance'];
         $pseudo = $donnees['pseudo'];
         $mdp = $donnees['mdp'];
-        $req = "INSERT INTO utilisateur (nom, prenom, email, naissance, pseudo, mdp) VALUES ('$nom','$prenom','$email','$naissance','$pseudo','$mdp')";
+        $req2="SELECT * FROM utilisateur WHERE email='$email' OR pseudo='$pseudo'";
+        $reqpreparer2=$maconnexion->prepare($req);
+        $reqpreparer2->execute();
+        $reponse = $reqpreparer2->fetchAll(PDO::FETCH_ASSOC);
+        if(empty($reponse)){
+            $req = "INSERT INTO utilisateur (nom, prenom, email, naissance, pseudo, mdp) VALUES ('$nom','$prenom','$email','$naissance','$pseudo','$mdp')";
+            print_r("Données créées");
+        }else{
+            $req = "UPDATE utilisateur SET nom='$nom',prenom='$prenom',naissance='$naissance',mdp='$mdp'";
+            print_r("Données mise à jour");
+        }        
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
         $reqpreparer->closeCursor();
@@ -37,7 +68,17 @@ elseif($req_type == 'POST') {
         $idutilisateur = $donnees['idutilisateur'];
         $date = $donnees['datevol'];
         $iddrone = $donnees['iddrone'];
-        $req = "INSERT INTO vol (idutilisateur, datevol, iddrone) VALUES ('$idutilisateur', '$date', '$iddrone')";
+        $req2 = "SELECT * FROM vol WHERE idutilisateur = '$idutilisateur'";
+        $reqpreparer2=$maconnexion->prepare($req2);
+        $reqpreparer2->exectue();
+        $reponse =$reqpreparer2->fetchAll(PDO::FETCH_ASSOC);
+        if(empty($reponse)){
+            $req = "INSERT INTO vol (idutilisateur, datevol, iddrone) VALUES ('$idutilisateur', '$date', '$iddrone')";
+            print_r("Données créées");
+        }else{
+            $req= "UPDATE vol SET datevol='$date',iddrone='$iddrone'";
+            print_r("Données mise à jour");
+        }
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
         $reqpreparer->closeCursor();

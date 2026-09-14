@@ -1,5 +1,8 @@
 CREATE DATABASE IF NOT EXISTS drone;
 USE drone;
+
+CREATE USER 'maxime'@'localhost' IDENTIFIED BY 'password';
+
 CREATE TABLE IF NOT EXISTS listeCommande(
     idlisteCommande INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nom VARCHAR(45)

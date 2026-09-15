@@ -1,0 +1,4 @@
+Quand j'insère des données dans la table vol il faut l'id utilisateur et celui de drone,
+donc il faut que si les utilisateur n'existe pas on inject une valeur par défaut
+
+

@@ -13,15 +13,15 @@ Légende :
 - [x] Avoir le répertoire `M07SW` dans `htdocs`.
 - [x] Avoir un fichier `README` contenant :
       `Module 7 Web` et `Gestion de données de drone.`
-- [ ] Suivre le tutoriel Git du module M01 pour préparer le versioning.
-- [ ] Créer une branche `SW01` (la branche actuelle est `main`).
+- [x] Suivre le tutoriel Git du module M01 pour préparer le versioning.
+- [x] Créer une branche `SW01` (la branche actuelle est `main`).
 - [x] Avoir un fichier SQL de création de la base et des tables :
       [sql/db.sql](./db.sql).
 - [x] Définir les tables dans un ordre compatible avec leurs clés étrangères.
 - [x] Avoir des fichiers SQL d'insertion pour les données de la base :
       [M07 Web/BdD/](../M07%20Web/BdD/).
-- [ ] Importer `db.sql` dans phpMyAdmin ou dans un terminal MySQL.
-- [ ] Importer les fichiers SQL de données dans chaque table.
+- [x] Importer `db.sql` dans phpMyAdmin ou dans un terminal MySQL.
+- [x] Importer les fichiers SQL de données dans chaque table.
 
 ## SW02 — Réception des données : utilisateur et drone (PDF pages 29 à 34)
 
@@ -34,12 +34,13 @@ Légende :
 - [x] Convertir le JSON en tableau associatif avec `json_decode(..., true)`.
 - [x] Extraire les principales données du JSON côté PHP (`nom`, `time`,
       `numero` et les états).
-- [ ] Écrire la requête SQL de recherche d'un utilisateur par son nom.
-- [ ] Écrire la requête SQL d'insertion d'un utilisateur par son nom.
+- [x] Écrire la requête SQL de recherche d'un utilisateur par son nom.
+- [x] Écrire la requête SQL d'insertion d'un utilisateur par son nom
+      (`INSERT INTO utilisateur ...`) dans [rest.php](../rest.php).
 - [ ] Compléter correctement l'API pour créer l'utilisateur s'il n'existe pas.
-- [ ] Tester la création de l'utilisateur avec un client REST et un JSON.
-- [ ] Écrire la requête SQL recherchant `iddrone` par `refdrone`.
-- [ ] Écrire la requête SQL d'insertion d'un drone.
+- [x] Tester la création de l'utilisateur avec un client REST et un JSON.
+- [x] Écrire la requête SQL recherchant `iddrone` par `refdrone`.
+- [x] Écrire la requête SQL d'insertion d'un drone.
 - [ ] Compléter l'API pour créer le drone si sa référence n'existe pas.
 - [ ] Tester la création et la recherche du drone.
 

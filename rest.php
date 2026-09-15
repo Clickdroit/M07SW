@@ -7,28 +7,44 @@ if(isset($_SERVER['PATH_INFO'])) {
 }
 
 if($req_type == 'GET'){
-    if(isset($req_data[1])&& $req_data[1]=='utilisateur'){
+    if(isset($req_data[1], $req_data[2]) && $req_data[1] == 'utilisateur'){
+    $nom = $req_data[2];
+    $req = "SELECT * FROM utilisateur WHERE nom = :nom";
+    $reqpreparer = $maconnexion->prepare($req);
+    $reqpreparer->execute(['nom' => $nom]);
+    $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
+    print_r($reponse);
+    }
+    elseif(isset($req_data[1])&& $req_data[1]=='utilisateur'){
         $req = "SELECT * FROM utilisateur";
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
         $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
         print_r($reponse);
     }
-    if(isset($req_data[1])&& $req_data[1] == 'drone'){
+    elseif(isset($req_data[1], $req_data[2]) && $req_data[1] == 'drone'){
+        $refdrone = $req_data[2];
+        $req = "SELECT * FROM drone WHERE refDrone = :refDrone";
+        $reqpreparer = $maconnexion->prepare($req);
+        $reqpreparer->execute(['refDrone' => $refdrone]);
+        $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
+        print_r($reponse);
+    }
+    elseif(isset($req_data[1])&& $req_data[1] == 'drone'){
         $req = "SELECT * FROM drone";
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
         $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
         print_r($reponse);
     }
-    if(isset($req_data[1])&& $req_data[1] == 'vol'){
+    elseif(isset($req_data[1])&& $req_data[1] == 'vol'){
         $req = "SELECT * FROM vol";
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
         $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
         print_r($reponse);
     }
-    if(isset($req_data[1])&& $req_data[1] == 'listecommande'){
+    elseif(isset($req_data[1])&& $req_data[1] == 'listecommande'){
         $req = "SELECT * FROM listecommande";
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
@@ -57,55 +73,54 @@ elseif($req_type == 'POST') {
         $naissance = $donnees['naissance'];
         $pseudo = $donnees['pseudo'];
         $mdp = $donnees['mdp'];
-        $req2="SELECT * FROM utilisateur WHERE email='$email' OR pseudo='$pseudo'";
-        $reqpreparer2=$maconnexion->prepare($req);
+        $req2="SELECT * FROM utilisateur WHERE nom='$nom";
+        $reqpreparer2=$maconnexion->prepare($req2);
         $reqpreparer2->execute();
         $reponse = $reqpreparer2->fetchAll(PDO::FETCH_ASSOC);
         if(empty($reponse)){
-            $req = "INSERT INTO utilisateur (nom, prenom, email, naissance, pseudo, mdp) VALUES ('$nom','$prenom','$email','$naissance','$pseudo','$mdp')";
+            $req = "INSERT INTO utilisateur (nom, prenom, email, naissance, pseudo, mdp)  VALUES ('$nom','$prenom','$email','$naissance','$pseudo','$mdp')";
             print_r("Données créées");
         }else{
-            $req = "UPDATE utilisateur SET nom='$nom',prenom='$prenom',naissance='$naissance',mdp='$mdp'";
+            $req = "UPDATE utilisateur WHERE nom='$nom' SET nom='$nom',prenom='$prenom',naissance='$naissance',mdp='$mdp'";
             print_r("Données mise à jour");
         }        
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
         $reqpreparer->closeCursor();
     }
-    if(isset($req_data[1]) && $req_data[1] == 'drone'){
+    elseif(isset($req_data[1]) && $req_data[1] == 'drone'){
         $marque = $donnees['marque'];
         $modele = $donnees['modele'];
         $ref = $donnees['refDrone'];
         $dateAchat = $donnees['dateAchat'];
-
-        $req2="SELECT * FROM drone WHERE marque='$marque' AND modele='$modele' AND refDrone='$ref' AND dateAchat='$dateAchat'";
-        $reqpreparer2=$maconnexion->prepare($req);
-        $reqpreparer2->execute();
+        $req2="SELECT * FROM drone WHERE marque = :marque AND modele = :modele AND refdrone = :refdrone AND dateAchat = :dateAchat";
+        $reqpreparer2=$maconnexion->prepare($req2);
+        $reqpreparer2->execute(['marque' => $marque,'modele' => $modele,'refdrone' => $ref,'dateAchat' => $dateAchat]);
         $reponse = $reqpreparer2->fetchAll(PDO::FETCH_ASSOC);
         if(empty($reponse)){
-            $req = "INSERT INTO drone (marque, modele, refDrone, dateAchat) VALUES ('$marque','$modele','$ref','$dateAchat')";
+            $req = "INSERT INTO drone (marque, modele, refdrone, dateAchat) VALUES (:marque, :modele, :refdrone, :dateAchat)";
             print_r("Données créées");
-        }else{
-        }        
-        $reqpreparer=$maconnexion->prepare($req);
-        $reqpreparer->execute();
-        $reqpreparer->closeCursor();
+            $reqpreparer=$maconnexion->prepare($req);
+            $reqpreparer->execute(['marque' => $marque,'modele' => $modele,'refdrone' => $ref,'dateAchat' => $dateAchat]);
+            $reqpreparer->closeCursor();
+        }
     }
 
 
-    if(isset($req_data[1]) && $req_data[1] == 'vol'){
+
+    elseif(isset($req_data[1]) && $req_data[1] == 'vol'){
         $idutilisateur = $donnees['idutilisateur'];
         $date = $donnees['datevol'];
         $iddrone = $donnees['iddrone'];
         $req2 = "SELECT * FROM vol WHERE idutilisateur = '$idutilisateur' AND iddrone='$iddrone' AND datevol='$date'";
         $reqpreparer2=$maconnexion->prepare($req2);
-        $reqpreparer2->exectue();
+        $reqpreparer2->execute();
         $reponse =$reqpreparer2->fetchAll(PDO::FETCH_ASSOC);
         if(empty($reponse)){
             $req = "INSERT INTO vol (idutilisateur, datevol, iddrone) VALUES ('$idutilisateur', '$date', '$iddrone')";
             print_r("Données créées");
         } else {
-            print_r("Données existantes")
+            print_r("Données existantes");
         }
         $reqpreparer=$maconnexion->prepare($req);
         $reqpreparer->execute();
@@ -115,7 +130,8 @@ elseif($req_type == 'POST') {
 
 
 
-    if(isset($req_data[1]) && $req_data[1] == 'etat'){
+
+    elseif(isset($req_data[1]) && $req_data[1] == 'etat'){
         $idvol = $donnees['idvol'];
         $pitch = $donnees['pitch'];
         $roll = $donnees['roll'];
@@ -140,7 +156,7 @@ elseif($req_type == 'POST') {
         $reqpreparer->closeCursor();
     }
     if(isset($req_data[1],$req_data[2])&& $req_data[1]=='vol' && $req_data[2]=='drone'){
-        $req = "SELECT * FROM vol INNER JOIN utilisateur ON utilisateur.idutilisateur = vol.idutilisateur INNER JOIN drone ON drone.iddrone = vol.iddrone"
+        $req = "SELECT * FROM vol INNER JOIN utilisateur ON utilisateur.idutilisateur = vol.idutilisateur INNER JOIN drone ON drone.iddrone = vol.iddrone";
     }
 }
 ?>

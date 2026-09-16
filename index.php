@@ -27,8 +27,8 @@
         <div id="nav_presentation">Présentation</div>
         <div id="nav_suivi">Suivi</div>
         <div id="nav_trajectoire">Trajectoire</div>
-        <div  id="nav_connexion" href="">Connexion</div>
-    		<div  id="nav_inscription" href="">Inscription</div>
+        <div id="nav_connexion" href="">Connexion</div>
+    		<div id="nav_inscription" href="">Inscription</div>
 
       <div></div>
     </nav>

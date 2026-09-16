@@ -46,18 +46,18 @@ Légende :
 
 ## SW03 — Réception des données : vol et états (PDF pages 35 à 37)
 
-- [ ] Rechercher un vol avec le nom de l'utilisateur et sa date.
-- [ ] Convertir le timestamp JSON en date SQL avec :
+- [x] Rechercher un vol avec le nom de l'utilisateur et sa date.
+- [x] Convertir le timestamp JSON en date SQL avec :
       `date('Y-m-d H:i:s', $time)`.
 - [ ] Créer un vol si le champ `time` reçu est différent d'une date déjà
       présente dans la base.
 - [ ] Mettre à jour les données si le vol existe déjà.
-- [ ] Écrire la requête SQL d'insertion d'un vol avec `idutilisateur` et la
+- [x] Écrire la requête SQL d'insertion d'un vol avec `idutilisateur` et la
       date.
-- [ ] Tester la création et la mise à jour d'un vol.
-- [ ] Écrire la requête SQL d'insertion d'un état avec `idvol`.
-- [ ] Compléter l'API pour insérer un état rattaché au bon `idvol`.
-- [ ] Parcourir tous les états reçus avec une boucle `for`.
+- [x] Tester la création et la mise à jour d'un vol.
+- [x] Écrire la requête SQL d'insertion d'un état avec `idvol`.
+- [x] Compléter l'API pour insérer un état rattaché au bon `idvol`.
+- [x] Parcourir tous les états reçus avec une boucle `for`.
 - [ ] Tester l'insertion avec un état puis avec plusieurs états.
 
 ## SW04 — Mise en place du site web (PDF pages 38 à 40)
@@ -68,20 +68,20 @@ Légende :
       [suivi.html](../M07%20Web/SW04_eleve/suivi.html).
 - [x] Avoir un fichier JavaScript dédié aux requêtes AJAX :
       [ajax.js](../M07%20Web/SW04_eleve/JS/ajax.js).
-- [ ] Tester l'affichage du site dans un navigateur.
-- [ ] Rendre l'onglet « Suivi » cliquable vers `suiviAjax()`.
+- [x] Tester l'affichage du site dans un navigateur.
+- [x] Rendre l'onglet « Suivi » cliquable vers `suiviAjax()`.
 - [x] Avoir la fonction `suiviAjax()` qui demande `suivi.html` et l'insère
       dans `section` (la route et l'événement restent à compléter).
-- [ ] Créer l'API `GET rest.php/nbdrone`.
-- [ ] Créer l'API `GET rest.php/nbvol`.
-- [ ] Créer l'API `GET rest.php/nbutilisateur`.
-- [ ] Écrire les trois requêtes SQL `COUNT(*)` correspondantes.
-- [ ] Créer `recupererNombreDrone()` et afficher le résultat dans
+- [x] Créer l'API `GET rest.php/nbdrone`.
+- [x] Créer l'API `GET rest.php/nbvol`.
+- [x] Créer l'API `GET rest.php/nbutilisateur`.
+- [x] Écrire les trois requêtes SQL `COUNT(*)` correspondantes.
+- [x] Créer `recupererNombreDrone()` et afficher le résultat dans
       `#nb_drone`.
-- [ ] Créer `recupererNombreVol()` et afficher le résultat dans `#nb_vol`.
-- [ ] Créer `recupererNombreUtilisateur()` et afficher le résultat dans
+- [x] Créer `recupererNombreVol()` et afficher le résultat dans `#nb_vol`.
+- [x] Créer `recupererNombreUtilisateur()` et afficher le résultat dans
       `#nb_utilisateur`.
-- [ ] Vérifier le fonctionnement complet de la page Suivi avec AJAX.
+- [x] Vérifier le fonctionnement complet de la page Suivi avec AJAX.
 
 ## SW05 — Afficher les données dans des tableaux (PDF pages 41 à 44)
 
@@ -117,7 +117,7 @@ Légende :
 
 ## Objectif à atteindre pour considérer M04 terminé
 
-- [ ] SW01 importé et versionné sur sa branche.
+- [x] SW01 importé et versionné sur sa branche.
 - [ ] SW02 fonctionnel : utilisateur et drone créés/retrouvés depuis le JSON.
 - [ ] SW03 fonctionnel : vol et tous ses états enregistrés correctement.
 - [ ] SW04 fonctionnel : statistiques affichées dans l'onglet Suivi par AJAX.

@@ -92,7 +92,24 @@ header #dark_light{display:inline;width:30px;height: 30px;margin: 23px 10px;posi
 	line-height: 100px;
 	height: 100px;
 	color: var(--hf-text-color);}
-.tableau_statistique{width:100%;}
+.tableau_statistique{
+	width:100%;
+	border-collapse:collapse;
+	margin-top:20px;
+}
+.tableau_statistique th,
+.tableau_statistique td{
+	border:1px solid #ddd;
+	padding:8px;
+	text-align:center;
+}
+.tableau_statistique th{
+	background-color:var(--n-bg-color);
+	color:var(--n-text-color);
+}
+.tableau_statistique tr:nth-child(even){
+	background-color:#f2f2f2;
+}
 .tableau_statistique input{width:100%;}
 
 .chart_container{display:flex;width:60vw;height:60vh;}

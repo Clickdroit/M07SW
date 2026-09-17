@@ -79,7 +79,6 @@ if($req_type == 'GET'){
         $reponse = $reqpreparer->fetch(PDO::FETCH_ASSOC);
         echo json_encode($reponse);
     }
-    // Modifier l'API pour répondre à `GET rest.php/graphe/[idvol]/[donnee]`
     elseif(isset($req_data[1], $req_data[2], $req_data[3]) && $req_data[1] == 'graphe'){
         $idvol = $req_data[2];
         $donnee = $req_data[3];
@@ -92,7 +91,6 @@ if($req_type == 'GET'){
             echo json_encode($reponse);
         }
     }
-    // Connexion simple en GET
     elseif(isset($req_data[1], $req_data[2], $req_data[3]) && $req_data[1] == 'connexion'){
         $pseudo = $req_data[2];
         $mdp = $req_data[3];
@@ -106,7 +104,6 @@ if($req_type == 'GET'){
             echo json_encode(["success" => false]);
         }
     }
-    // Inscription simple en GET
     elseif(isset($req_data[1], $req_data[2], $req_data[3], $req_data[4], $req_data[5]) && $req_data[1] == 'inscription'){
         $nom = $req_data[2];
         $prenom = $req_data[3];
@@ -168,7 +165,6 @@ elseif($req_type == 'POST') {
     }
     elseif(isset($req_data[1]) && ($req_data[1] == 'vol' || $req_data[1] == 'etat')){
         if(isset($donnees['nom'], $donnees['numero'], $donnees['time'])){
-            // 1. Utilisateur : recherche ou création
             $nom = $donnees['nom'];
             $reqUser = "SELECT idutilisateur FROM utilisateur WHERE nom = :nom";
             $stmtUser = $maconnexion->prepare($reqUser);
@@ -181,8 +177,6 @@ elseif($req_type == 'POST') {
             } else {
                 $idutilisateur = $user['idutilisateur'];
             }
-
-            // 2. Drone : recherche ou création
             $refdrone = $donnees['numero'];
             $reqDrone = "SELECT iddrone FROM drone WHERE refdrone = :refdrone";
             $stmtDrone = $maconnexion->prepare($reqDrone);
@@ -195,8 +189,6 @@ elseif($req_type == 'POST') {
             } else {
                 $iddrone = $drone['iddrone'];
             }
-
-            // 3. Vol : conversion timestamp -> date SQL et recherche ou création
             $time = $donnees['time'];
             $datevol = date('Y-m-d H:i:s', $time);
             $reqVol = "SELECT idvol FROM vol WHERE idutilisateur = :idutilisateur AND iddrone = :iddrone AND datevol = :datevol";
@@ -210,8 +202,6 @@ elseif($req_type == 'POST') {
             } else {
                 $idvol = $vol['idvol'];
             }
-
-            // 4. États : insertion de la liste d'états
             if(isset($donnees['etats']) && is_array($donnees['etats'])){
                 $reqEtat = "INSERT INTO etat (idvol, pitch, roll, yaw, vgx, vgy, vgz, templ, temph, tof, h, bat, baro, time, agx, agy, agz) VALUES (:idvol, :pitch, :roll, :yaw, :vgx, :vgy, :vgz, :templ, :temph, :tof, :h, :bat, :baro, :time, :agx, :agy, :agz)";
                 $stmtEtat = $maconnexion->prepare($reqEtat);

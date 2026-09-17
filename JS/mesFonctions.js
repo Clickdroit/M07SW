@@ -69,13 +69,10 @@ function changerSection()
 
 function validationFormulaireInscription()
 {
-  //alert("Validation du formulaire avant envoi");
   if(document.getElementById("mdp1").value != document.getElementById("mdp2").value )
   {
-    alert("Les 2 mots de passe sont différents");
-    //console.debug(this);
-    //console.debug(event);
-    event.preventDefault(); // Annule la propagation de l'événement -> dans notre cas, annulation de l'envoi du formulaire
+    alert("Les 2 mots de passe sont différents");    
+    event.preventDefault(); 
   }
   if(validationDuMotDePasse() == false)
   {
@@ -108,11 +105,6 @@ function validationDuMotDePasse()
       }
       //console.debug("caractère : " + i + " : " + mdp.charAt(i));
     }
-    //console.debug("Nombre de caractères : " + mdp.length);
-    //console.debug("Nombre de majuscules : " + nbMajuscules);
-    //console.debug("Nombre de minuscules : " + nbMinuscules);
-    //console.debug("Nombre de chiffres : " + nbChiffres);
-    //console.debug("Nombre de caractères spéciaux : " + nbSpeciaux);
 
     // Gestion du vert-rouge sur la longueur du mot de passe
     if( (mdp.length >= 8) && document.getElementById("mdp_longueur").classList.contains('rouge') )

@@ -56,6 +56,8 @@
       <script src="JS/mesFonctions.js"></script>
       <script src="JS/dark_light.js"></script>
       <script src="JS/navigation.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="JS/chart.js"></script>
       <script src="JS/ajax.js"></script>
 
   </body>

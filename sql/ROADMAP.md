@@ -101,17 +101,18 @@ Légende :
       [Graphe_SW06_eleve/chart.js](../M07%20Web/Graphe_SW06_eleve/chart.js).
 - [x] Modifier l'API pour répondre à
       `GET rest.php/graphe/[idvol]/h`.
-- [ ] Retourner les valeurs de `h` du vol demandé.
-- [ ] Ajouter dans l'affichage des vols un bouton par `idvol` avec
+- [x] Retourner les valeurs de `h` du vol demandé.
+- [x] Ajouter dans l'affichage des vols un bouton par `idvol` avec
       l'attribut `data-idvol`.
-- [ ] Compléter `ajax.js` avec la fonction `ajaxGraphe`.
-- [ ] Afficher la hauteur en fonction de l'idetat.
-- [ ] Modifier le graphe pour afficher le temps sur l'axe des abscisses,
+- [x] Compléter `ajax.js` avec la fonction `chargerGrapheHauteur`.
+- [x] Afficher la hauteur en fonction de l'idetat.
+- [x] Modifier le graphe pour afficher le temps sur l'axe des abscisses,
       en tenant compte des 10 valeurs envoyées chaque seconde.
-- [ ] Modifier l'API pour permettre de récupérer les autres données de vol.
-- [ ] Permettre à l'utilisateur de choisir la donnée à afficher dans le graphe.
-- [ ] Tester les graphes avec un vol contenant plusieurs états.
+- [x] Modifier l'API pour permettre de récupérer les autres données de vol.
+- [x] Permettre à l'utilisateur de choisir la donnée à afficher dans le graphe.
+- [x] Tester les graphes avec un vol contenant plusieurs états.
 
+- [x] Faire l'inscription et la connexion
 ## Objectif à atteindre pour considérer le Web M07 terminé
 
 - [x] SW01 importé et versionné sur sa branche.
@@ -119,4 +120,4 @@ Légende :
 - [x] SW03 fonctionnel : vol et tous ses états enregistrés correctement.
 - [x] SW04 fonctionnel : statistiques affichées dans l'onglet Suivi par AJAX.
 - [x] SW05 fonctionnel : tableaux utilisateurs, drones et vols affichés.
-- [ ] SW06-08 fonctionnel : graphe de hauteur, temps et autres mesures.
+- [x] SW06-08 fonctionnel : graphe de hauteur, temps et autres mesures.

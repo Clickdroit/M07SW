@@ -79,14 +79,43 @@ if($req_type == 'GET'){
         $reponse = $reqpreparer->fetch(PDO::FETCH_ASSOC);
         echo json_encode($reponse);
     }
-    //Modifier l'API pour répondre à `GET rest.php/graphe/[idvol]/h`.
-    elseif(isset($req_data[1], $req_data[2], $req_data[3]) && $req_data[1] == 'graphe' && $req_data[3] == 'h'){
+    // Modifier l'API pour répondre à `GET rest.php/graphe/[idvol]/[donnee]`
+    elseif(isset($req_data[1], $req_data[2], $req_data[3]) && $req_data[1] == 'graphe'){
         $idvol = $req_data[2];
-        $req = "SELECT time, h FROM etat WHERE idvol = :idvol ORDER BY time";
+        $donnee = $req_data[3];
+        $donneesValides = ['h', 'bat', 'baro', 'pitch', 'roll', 'yaw', 'vgx', 'vgy', 'vgz', 'templ', 'temph', 'tof', 'agx', 'agy', 'agz', 'time'];
+        if(in_array($donnee, $donneesValides)){
+            $req = "SELECT idetat, $donnee FROM etat WHERE idvol = :idvol ORDER BY idetat";
+            $reqpreparer = $maconnexion->prepare($req);
+            $reqpreparer->execute(['idvol' => $idvol]);
+            $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($reponse);
+        }
+    }
+    // Connexion simple en GET
+    elseif(isset($req_data[1], $req_data[2], $req_data[3]) && $req_data[1] == 'connexion'){
+        $pseudo = $req_data[2];
+        $mdp = $req_data[3];
+        $req = "SELECT * FROM utilisateur WHERE pseudo = :pseudo AND mdp = :mdp";
         $reqpreparer = $maconnexion->prepare($req);
-        $reqpreparer->execute(['idvol' => $idvol]);
-        $reponse = $reqpreparer->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($reponse);
+        $reqpreparer->execute(['pseudo' => $pseudo, 'mdp' => $mdp]);
+        $reponse = $reqpreparer->fetch(PDO::FETCH_ASSOC);
+        if($reponse){
+            echo json_encode(["success" => true]);
+        } else {
+            echo json_encode(["success" => false]);
+        }
+    }
+    // Inscription simple en GET
+    elseif(isset($req_data[1], $req_data[2], $req_data[3], $req_data[4], $req_data[5]) && $req_data[1] == 'inscription'){
+        $nom = $req_data[2];
+        $prenom = $req_data[3];
+        $pseudo = $req_data[4];
+        $mdp = $req_data[5];
+        $req = "INSERT INTO utilisateur (nom, prenom, pseudo, mdp) VALUES (:nom, :prenom, :pseudo, :mdp)";
+        $reqpreparer = $maconnexion->prepare($req);
+        $reqpreparer->execute(['nom' => $nom, 'prenom' => $prenom, 'pseudo' => $pseudo, 'mdp' => $mdp]);
+        echo json_encode(["success" => true]);
     }
 }
 
@@ -194,6 +223,21 @@ elseif($req_type == 'POST') {
             echo json_encode("Données créées", JSON_UNESCAPED_UNICODE);
         } else {
             echo json_encode("Données invalides", JSON_UNESCAPED_UNICODE);
+        }
+    }
+    elseif(isset($req_data[1]) && $req_data[1] == 'connexion'){
+        $pseudo = isset($donnees['pseudo']) ? $donnees['pseudo'] : '';
+        $mdp = isset($donnees['mdp']) ? $donnees['mdp'] : '';
+
+        $req = "SELECT * FROM utilisateur WHERE pseudo = :pseudo AND mdp = :mdp";
+        $stmt = $maconnexion->prepare($req);
+        $stmt->execute(['pseudo' => $pseudo, 'mdp' => $mdp]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($user){
+            echo json_encode(["success" => true]);
+        } else {
+            echo json_encode(["success" => false]);
         }
     }
 }

@@ -1,5 +1,6 @@
-//if(document.getElementById("nav_suivi"))
 document.getElementById("nav_suivi").addEventListener("click", suiviAjax);
+document.getElementById("nav_inscription").addEventListener("click", inscriptionAjax);
+document.getElementById("nav_connexion").addEventListener("click", connexionAjax);
 
 
 //////////////////////// Affichage onglet Suivi
@@ -112,7 +113,7 @@ function recupererDonneesVols(){
       for(let i=0; i<reponseAPI.length; i++){
         table+="<tr class='centrer'>";
         let donneesvol=reponseAPI[i];
-        table+="<td>"+donneesvol.idvol+"</td>";
+        table+="<td><button class='idvol_graphe' data-idvol='"+donneesvol.idvol+"'>"+donneesvol.idvol+"</button></td>";
         table+="<td>"+donneesvol.idutilisateur+"</td>";
         table+="<td>"+donneesvol.datevol+"</td>";
         table+="<td>"+donneesvol.iddrone+"</td>";
@@ -120,25 +121,153 @@ function recupererDonneesVols(){
       }
       table+="</table></div>";
       document.getElementById("section").innerHTML = table;
+      document.querySelectorAll(".idvol_graphe").forEach(function(bouton) {
+        bouton.addEventListener("click", function() {
+          chargerGraphe(this.dataset.idvol, 'h');
+        });
+      });
     }
   };
   xhttp.open("GET", "rest.php/vol");
   xhttp.send();
 }
-function chargerGrapheHauteur(idvol) {
+function chargerGraphe(idvol, donnee) {
+    if (!donnee) {
+        donnee = "h";
+    }
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            let donnees = JSON.parse(this.responseText);
-            let temps = [];
-            let hauteurs = [];
-            for(let i = 0; i < donnees.length; i++) {
-                temps.push(donnees[i].time);
-                hauteurs.push(donnees[i].h);
+            var donnees = JSON.parse(this.responseText);
+            var temps = [];
+            var valeurs = [];
+            for (var i = 0; i < donnees.length; i++) {
+                temps.push(i / 10);
+                valeurs.push(donnees[i][donnee]);
             }
-            afficherGraphique(temps, hauteurs);
+            afficherGraphique(idvol, donnee, temps, valeurs);
         }
     };
-    xhttp.open("GET", "rest.php/graphe/" + idvol + "/h");
+    xhttp.open("GET", "rest.php/graphe/" + idvol + "/" + donnee);
+    xhttp.send();
+}
+
+function afficherGraphique(idvol, donnee, temps, valeurs) {
+    var html = "<label>Donnée à afficher : </label>";
+    html += "<select id='choix_donnee'>";
+    html += "<option value='h'>Hauteur</option>";
+    html += "<option value='bat'>Batterie</option>";
+    html += "<option value='baro'>Baromètre</option>";
+    html += "<option value='pitch'>Pitch</option>";
+    html += "<option value='roll'>Roll</option>";
+    html += "<option value='yaw'>Yaw</option>";
+    html += "<option value='vgx'>Vitesse X</option>";
+    html += "<option value='vgy'>Vitesse Y</option>";
+    html += "<option value='vgz'>Vitesse Z</option>";
+    html += "<option value='templ'>Température min</option>";
+    html += "<option value='temph'>Température max</option>";
+    html += "<option value='tof'>TOF</option>";
+    html += "</select>";
+    html += "<canvas id='graphique'></canvas>";
+
+    document.getElementById("section").innerHTML = html;
+
+    document.getElementById("choix_donnee").value = donnee;
+    document.getElementById("choix_donnee").addEventListener("change", function() {
+        chargerGraphe(idvol, this.value);
+    });
+
+    new Chart(document.getElementById("graphique"), {
+        type: "line",
+        data: {
+            labels: temps,
+            datasets: [{
+                label: donnee,
+                data: valeurs,
+                borderColor: "blue"
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: { 
+                      display: true,
+                      text: "Temps (s)"
+                      }
+                },
+                y: {
+                    title: { 
+                      display: true,
+                      text: donnee
+                     }
+                }
+            }
+        }
+    });
+}
+
+function inscriptionAjax() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("section").innerHTML = this.responseText;
+            document.getElementById("bouton_inscription").addEventListener("click", inscrire);
+        }
+    };
+    xhttp.open("GET", "inscription.php");
+    xhttp.send();
+}
+
+function inscrire() {
+    var nom = document.getElementById("nom").value;
+    var prenom = document.getElementById("prenom").value;
+    var pseudo = document.getElementById("pseudo").value;
+    var mdp1 = document.getElementById("mdp1").value;
+    var mdp2 = document.getElementById("mdp2").value;
+
+    if (mdp1 != mdp2) {
+        alert("Les 2 mots de passe sont différents");
+        return;
+    }
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            alert("Inscription réussie !");
+            connexionAjax();
+        }
+    };
+    xhttp.open("GET", "rest.php/inscription/" + nom + "/" + prenom + "/" + pseudo + "/" + mdp1);
+    xhttp.send();
+}
+
+function connexionAjax() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("section").innerHTML = this.responseText;
+            document.getElementById("bouton_connexion").addEventListener("click", connecter);
+        }
+    };
+    xhttp.open("GET", "connexion.php");
+    xhttp.send();
+}
+
+function connecter() {
+    var pseudo = document.getElementById("pseudo_connexion").value;
+    var mdp = document.getElementById("mdp_connexion").value;
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var reponse = JSON.parse(this.responseText);
+            if (reponse.success) {
+                alert("Connexion réussie !");
+            } else {
+                alert("Identifiant ou mot de passe incorrect");
+            }
+        }
+    };
+    xhttp.open("GET", "rest.php/connexion/" + pseudo + "/" + mdp);
     xhttp.send();
 }

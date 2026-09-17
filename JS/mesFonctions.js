@@ -206,8 +206,9 @@ function mettreAJourLeCompteur()
 
 
 
-document.getElementById("nav_inscription").addEventListener('click', changerSection);
-document.getElementById("nav_connexion").addEventListener('click', changerSection);
+// Navigation Inscription et Connexion gérée par AJAX dans ajax.js
+// document.getElementById("nav_inscription").addEventListener('click', changerSection);
+// document.getElementById("nav_connexion").addEventListener('click', changerSection);
 
 // La gestion de l'envoi du formulaire d'Inscription
 

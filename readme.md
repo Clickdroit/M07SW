@@ -103,3 +103,19 @@ Exemple de JSON à mettre pour chaque POST:
     ]
   }
 ```
+
+## Démarrer et vérifier le site en local
+
+Depuis la racine du projet, avec PHP installé :
+
+```powershell
+php -l rest.php
+php -l connexion.php
+php -l inscription.php
+php -S 127.0.0.1:8080
+```
+
+Ouvrir `http://127.0.0.1:8080/index.php`. Le serveur PHP ne démarre pas MySQL :
+la base et sa connexion doivent être préparées séparément, comme indiqué
+dans [la roadmap](sql/ROADMAP.md). Un double-clic sur `index.php` n'exécute
+pas le PHP. Vérifier l'onglet Réseau du navigateur si les statistiques restent vides.
